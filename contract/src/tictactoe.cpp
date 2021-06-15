@@ -116,6 +116,7 @@ CONTRACT tictactoe : public contract {
 		auto _gameskey = _game.get_index<name("gameskey")>();
 		auto itr = _gameskey.find(combine_ids(host.value, opponent.value));
 		check(itr!=_gameskey.end(), "game not found.");
+  		check(itr->hoststake==itr->opponentstake, "Stake not balance");
 		check(itr->winner==name(), "game over!");
 		_game.modify(*itr, same_payer, [&]( auto& game ) {
 			check(game.is_valid_movement(by, row, col), "invalid move.");
